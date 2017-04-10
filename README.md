@@ -11,7 +11,9 @@ Prva tabela bo sestavljena iz količine potrošnje različnih držav za osnovno�
 Dodatno bom analizirala države, ki se najbolj prilegajo teoriji, ter tiste, ki najbolj odstopajo. Zanimalo me bo, če je povezanost med državno potrošnjo za izobrazbo državljanov in rastjo realnega BDP-ja lahko zanemarljiva ali pa bi to lahko bil eden izmed poglavitnih razlogov za stabilno rast. 
 
 Podatki: http://ec.europa.eu/eurostat
-
+         http://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=educ_fiabs&lang=en
+         http://ec.europa.eu/eurostat/tgm/table.do?tab=table&init=1&plugin=1&pcode=tps00069&language=en
+         
 ## Program
 
 Glavni program in poročilo se nahajata v datoteki `projekt.Rmd`. Ko ga prevedemo,
