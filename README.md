@@ -5,7 +5,9 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2016/17
 ## Tematika
 
 V svojem projektu bom analizirala državne potrošnje za izobrazbo. Zanimala me bodo posamezna področja izobrazbe, šolskih ustanov in plače zaposlenih ter če investicije v le-te lahko vplivajo na stabilno rast BDP-ja. Podatke o državni potrošnji v odstotkih BDP-ja in realni BDP sem v obliki CSV pridobila iz Eurostata. 
-Prva tabela bo sestavljena iz količine potrošnje različnih držav za osnovnošolske, visokošolske in univerzitetne ustanove po letih. V drugi tabeli bodo leta in države, rast BDP-ja, in skupna državna potrošnja za izobrazbo v odstotkih BDP. 
+
+Prva tabela bo sestavljena iz količine potrošnje različnih držav za osnovnošolske, visokošolske in univerzitetne ustanove po letih. V drugi tabeli bodo leta in države, rast BDP-ja, in skupna državna potrošnja za izobrazbo v odstotkih BDP.
+
 Dodatno bom analizirala države, ki se najbolj prilegajo teoriji, ter tiste, ki najbolj odstopajo. Zanimalo me bo, če je povezanost med državno potrošnjo za izobrazbo državljanov in rastjo realnega BDP-ja lahko zanemarljiva ali pa bi to lahko bil eden izmed poglavitnih razlogov za stabilno rast. 
 
 Podatki: http://ec.europa.eu/eurostat
