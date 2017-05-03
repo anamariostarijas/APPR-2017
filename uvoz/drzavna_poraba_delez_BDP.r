@@ -1,4 +1,4 @@
-drzavna.poraba.delez.BDP <- function() {
+#drzavna_poraba_delez_BDP <- function() { 
   
 #2. tabela
 library(readr)
@@ -14,4 +14,5 @@ drzavna.poraba.delez.BDP <- drzavna.poraba.delez.BDP[!(is.na(drzavna.poraba.dele
 drzavna.poraba.delez.BDP[5]<- NULL
 
 
-}
+#}
+

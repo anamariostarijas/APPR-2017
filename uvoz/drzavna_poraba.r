@@ -1,4 +1,4 @@
-drzavna_poraba <- function() {
+#drzavna_poraba <- function() {
 
 library(readr)
 loc = locale(encoding = "Windows-1250", decimal_mark = ".", grouping_mark = ",")
@@ -13,4 +13,4 @@ drzavna.poraba <- drzavna.poraba[!(is.na(drzavna.poraba$kolicina)),]
 drzavna.poraba[4] <- NULL
 drzavna.poraba[5] <- NULL
 
-}
+#}

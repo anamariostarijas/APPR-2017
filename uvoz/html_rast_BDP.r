@@ -12,7 +12,7 @@
 
 
 # 3. kot HTML tabela
-html.rast.BDP2 <- function () {
+#html.rast.BDP2 <- function () {
 library(rvest)
     library(gsubfn)
     library(readr)
@@ -33,4 +33,4 @@ html.rast.BDP2 <- melt(html.rast.BDP, id.vars = "drzava", measure.vars = names(h
                        na.rm = TRUE)
 
 colnames(html.rast.BDP2)<- c("drzava", "leto", "% BDP za izobrazbo")
-}
+#}
