@@ -32,5 +32,11 @@ html.rast.BDP2 <- melt(html.rast.BDP, id.vars = "drzava", measure.vars = names(h
                        variable.name = "leto", value.name = "%",
                        na.rm = TRUE)
 
-colnames(html.rast.BDP2)<- c("drzava", "leto", "% BDP za izobrazbo")
+colnames(html.rast.BDP2)<- c("drzava", "leto", "rast.BDP")
+html.rast.BDP2 <- html.rast.BDP2 %>%
+  filter(drzava != "European Union (28 countries)" & drzava != "European Union (15 countries)" & drzava != "European Union (27 countries)"
+        & drzava != "Euro area (12 countries)" & drzava != "Euro area (17 countries)" & drzava != "Euro area (18 countries)"
+        & drzava != "Euro area (EA11-2000, EA12-2006, EA13-2007, EA15-2008, EA16-2010, EA17-2013, EA18-2014, EA19)")
+
+html.rast.BDP2$leto <- html.rast.BDP2$leto %>% parse_number(na = ":", locale = loc)
 #}
