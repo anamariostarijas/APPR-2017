@@ -19,7 +19,7 @@ library(rvest)
 library(dplyr)
 library(XML)
 library(reshape2)
-library(reshape)
+#library(reshape)
 html.rast.BDP <- readHTMLTable("podatki/nama_gdp_k.html", 
                                which = 1)
 
