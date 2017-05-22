@@ -1,25 +1,48 @@
 library(ggplot2)
 library(dplyr)
 
-#podatki <- drzavna.poraba %>% filter(vrsta.izobrazbe == "Total public expenditure on education in millions PPS, for all levels of education combined")
-#podatki <- podatki %>% group_by(drzava)
 
-#apply(podatki[-2] , 1, sum, na.rm = TRUE)
+# želim prikazati najbolj potrošnih nekaj držav ter najmanj
 
-#graf <- ggplot(podatki) + aes(x = drzava, y = kolicina) + geom_point()
-#graf <- graf + 
+fil <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava != "Turkey" & drzava != "Hungary")
+skupni.podatki <- fil %>% group_by(drzava) %>% summarise(skupno = sum(kolicina)) 
 
-#print(graf)
+top5 <- quantile(skupni.podatki$skupno, 0.90)
+min5 <- quantile(skupni.podatki$skupno, 0.10)
 
-
-
+izbrane.drzave <- skupni.podatki %>% filter(skupno >= top5 | skupno <= min5)  
 
 
-#podatki2 <- html.rast.BDP2 %>% filter(leto >= 2010)
-#graf2 <- ggplot(podatki2) + aes(x = drzava, y= rast.BDP) + geom_point()
-
-#print(graf2)
+#podatki <- drzavna.poraba.delez.BDP %>% filter(drzava == "Japan" | drzava == "Slovenia") 
 
 
+#graf1 <- ggplot(drzavna.poraba.delez.BDP 
+ #               %>% filter(drzava == izbrane.drzave$drzava)) + 
+  #                aes(x = drzava, y = kolicina) +  
+   #             geom_point() 
 
-graf3 <- ggplot(drzavna.poraba.delez.BDP) + aes(x = drzava, y = kolicina) + geom_point()
+#print(graf1)
+
+graf1 <- ggplot(drzavna.poraba.delez.BDP 
+                               %>% filter(drzava == izbrane.drzave$drzava[1]))
+                                aes(x = leto, y = kolicina, colour = drzava) + geom_boxplot()
+
+graf1 <- graf1 + ggplot(drzavna.poraba.delez.BDP 
+         %>% filter(drzava == izbrane.drzave$drzava[2])) 
+  
+# želim združiti vse v en graf
+
+
+print(graf1)
+
+####
+kolicina1 <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava == izbrane.drzave$drzava[1])
+kolicina2 <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava == izbrane.drzave$drzava[2])
+
+graf3 <- ggplot(drzavna.poraba.delez.BDP, aes(x = leto)) +                    
+  geom_line(aes(y = kolicina1), colour="red") +      
+  geom_line(aes(y = kolicina2), colour="green")
+
+print(graf3)
+
+
