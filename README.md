@@ -8,21 +8,21 @@ V svojem projektu bom analizirala državne potrošnje za izobrazbo. Zanimala me 
 
 Podatki:
          1. tabela (CSV): državna poraba za izobrazbo (v milijonih €) 
-         * stolpec 1: leto (2000-2011)
-         * stolpec 2: država
-         * stolpec 3: vrsta izobrazbe
-         * stolpec 4: količina 
+         *stolpec 1: leto (2000-2011)
+         *stolpec 2: država
+         *stolpec 3: vrsta izobrazbe
+         *stolpec 4: količina 
          
          2. tabela (CSV): državna poraba za izobrazbo (v % BDP)
-         * stolpec 1: leto (2000-2011)
-         * stolpec 2: država
-         * stolpec 3: vrsta izobrazbe
-         * stolpec 4: količina
+         *stolpec 1: leto (2000-2011)
+         *stolpec 2: država
+         *stolpec 3: vrsta izobrazbe
+         *stolpec 4: količina
          
          3. tabela (HTML): rast BDP glede na prejšnje leto (v %)
-         * stolpec 1: država
-         * stolpec 2: leto (2000-2011)
-         * stolpec 3: količina
+         *stolpec 1: država
+         *stolpec 2: leto (2000-2011)
+         *stolpec 3: količina
          
 
 Dodatno bom analizirala države, ki se najbolj prilegajo teoriji, ter tiste, ki najbolj odstopajo. Zanimalo me bo, če je povezanost med državno potrošnjo za izobrazbo državljanov in rastjo realnega BDP-ja lahko zanemarljiva ali pa bi to lahko bil eden izmed poglavitnih razlogov za stabilno rast. 
