@@ -21,47 +21,78 @@ source("lib/libraries.r", encoding = "UTF-8")
 
 # Izbira teme
 
-Za vzorec bomo prikazali nekaj podatkov o slovenskih občinah.
+V svojem projektu bom analizirala državne potrošnje za izobrazbo. Zanimala me bodo posamezna področja izobrazbe in šolskih ustanov ter če investicije v le-te lahko vplivajo na stabilno rast BDP-ja. 
+
+
+Dodatno bom analizirala države, ki se najbolj prilegajo teoriji, ter tiste, ki najbolj odstopajo. Zanimalo me bo, če je povezanost med državno potrošnjo za izobrazbo državljanov in rastjo realnega BDP-ja lahko zanemarljiva ali pa bi to lahko bil eden izmed poglavitnih razlogov za stabilno rast.
 
 ***
 
 # Obdelava, uvoz in čiščenje podatkov
 
 ```{r uvoz, echo=FALSE, message=FALSE}
-source("uvoz/uvoz.r", encoding = "UTF-8")
+source("uvoz/drzavna_poraba.r", encoding = "UTF-8")
+source("uvoz/drzavna_poraba_delez_BDP.r", encoding = "UTF-8")
+source("uvoz/html_rast_BDP.r", encoding = "UTF-8")
 ```
 
-Uvozili smo podatke o občinah v obliki CSV s statističnega urada ter v obliki HTML
-z Wikipedije. Poglejmo si začetka obeh uvoženih razpredelnic.
+Podatke o državni potrošnji v odstotkih BDP-ja in celotno količino potrošnje za izobrazbo po letih sem v obliki CSV, rast BDP-ja pa v obliki HTML, pridobila iz Eurostata.
+
+1. TABELA (CSV): državna poraba za izobrazbo (v milijonih €)
+* stolpec 1: leto (2000-2011), numeric
+* stolpec 2: država, character
+* stolpec 3: vrsta izobrazbe, character
+* stolpec 4: količina, meritev, numeric
+
+Za lažji pregled tabele sem izbrisala dva stolpca, saj nista predstavljala meritev ampak le opombe. 
+
+2. TABELA (CSV): državna poraba za izobrazbo (v % BDP)
+* stolpec 1: leto (2000-2011), numeric
+* stolpec 2: država, character
+* stolpec 3: vrsta izobrazbe, character
+* stolpec 4: količina, meritev, numeric
+
+Pri tej tabeli sem iz istih razlogov izbrisala en stolpec.
+
+3. TABELA (HTML): rast BDP glede na prejšnje leto (v %)
+* stolpec 1: država, character
+* stolpec 2: leto (2000-2011), numeric
+* stolpec 3: količina, meritev, numeric
+
+Prvi dve tabeli, ki sta v CSV obliki, sem urejala na podoben način. Po uvozu sem se znebila vrstic z vrednostmi na, saj bi te predstavljale težavo pri analizi podatkov, izbrisala določene "države", kot npr. "European Union (25 countries)" in uredila nekatera imena držav ("Germany (until 1990 former territory of the FRG)" v "Germany"), saj se ne bi ujemala z ostalimi tabelami ali zemljevidi, ko bi želela združevati podatke. Določenim stolpcem sem spremenila tip, npr. "leto" iz factor v numeric, da bom z njimi lahko delala brez težav pri analizi.
+
+Tretjo tabelo, ki je v HTML obliki, sem po uvozu uredila v tidy data obliko s funkcijo melt, česar pri ostalih dveh ni bilo potrebno, ostalo sem pa uredila na podoben način.
+
 
 ```{r razpredelnice}
-kable(head(druzine))
-head(obcine)
+kable(head(drzavna.poraba.delez.BDP))
+head(drzavna.poraba.delez.BDP)
 ```
 
-Slika \ref{fig:histogram} prikazuje porazdelitev števila naselij v občinah.
 
-```{r histogram, echo=FALSE, message=FALSE, fig.align='center', fig.cap='Histogram števila naselij v občinah'}
-ggplot(obcine, aes(x = naselja)) + geom_histogram() +
-  ggtitle("Pogostost števila naselij") + xlab("Število naselij") + ylab("Število občin")
-```
 
 ***
 
 # Analiza in vizualizacija podatkov
 
 ```{r vizualizacija, echo=FALSE, message=FALSE}
-source("vizualizacija/vizualizacija.r", encoding = "UTF-8")
+source("vizualizacija/grafi.r", encoding = "UTF-8")
 ```
 
-Slika \ref{fig:zemljevid} prikazuje povprečno velikost družine za vsako občino.
+Slika \ref{fig:zemljevid} prikazuje potrošnjo evropskih držav za izobrazbo z barvno lestvico, manjkajoče države so pobarvane s sivo barvo. Z zemljevidom dobimo okvirno sliko potrošnje držav, vidimo, katere izstopajo z nižjo potrošnjo in katere z višjo. Te primere sem posebej še predstavila z grafom, kjer lahko podrobneje vidimo razlike po letih.
 
-```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Zemljevid povprečnega števila otrok v družini'}
-ggplot() + geom_polygon(data = left_join(zemljevid, povprecja, by = c("OB_UIME" = "obcina")),
-                        aes(x = long, y = lat, group = group, fill = povprecje)) +
-  ggtitle("Povprečno število otrok v družini") + xlab("") + ylab("") +
-  guides(fill = guide_colorbar(title = "Povprečje"))
+```{r zemljevid, echo=FALSE, fig.align='center', fig.cap='Zemljevid potrošnje evropskih držav za izobrazbo v odstotkih BDP-ja'}
+ggplot() + geom_polygon(data = left_join(evropa, drzavna.poraba.delez.BDP,
+                                          by = c("name" = "drzava")),
+                                          aes(x = long, y = lat, group = group, fill = kolicina)) +
+                                          coord_map(xlim = c(-25, 40), ylim = c(32, 72))
 ```
+
+Za prvi graf sem izmed vseh izvzela le 6 držav, 3 z najvišjo potrošnjo in 3 z najnižjo. Te sem poiskala tako, da sem seštela potrošnjo od leta 2004 naprej za vsako državo posebej in poiskala države v najvišjih desetih odstotkih ter najnižjih. Izpustila sem prejšnja leta, ker je mnogo podatkov manjkalo in bi ti motili rezultate. Tako je graf lažje berljiv in nam pokaže bistvene podatke.
+Vidimo, da so najbolj potrošne 3 države Ciper, Malta in Slovenija, najmanj pa Litva, Portugalska in Slovaška. Pri večini držav vidimo vsaj manjši padec okoli leta 2008, kar me ne preseneti, saj je imela kriza močan vpliv na splošno potrošnjo držav, po tem letu pa je pri vseh narasla. Potrošnja za izobrazbo pri teh izbranih državah ne izgleda stabilna, še posebej pri Malti je zelo nihala, a vseeno rasla.
+
+Zanima me, če obstaja kakšna povezava med potrošnjo za izobrazbo in rastjo BDP-ja, zato sem si ogledala še graf rasti BDP-ja za teh 6 držav. Seveda je BDP med krizo padel, ampak iz tega še ne morem sklepati o povezavi.
+
 
 ***
 

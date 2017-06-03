@@ -1,9 +1,18 @@
 library(ggplot2)
 library(dplyr)
 
+
+
+#1. GRAF
+
 # želim prikazati najbolj potrošnih nekaj držav ter najmanj
 
-fil <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava != "Turkey" & drzava != "Hungary")
+fil <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava != "Turkey" & drzava != "Hungary"
+                                           & drzava != "Greece" & drzava != "Romania" & drzava != "Ireland"
+                                           & drzava != "Liechtenstein" & drzava != "Estonia" & drzava != "Croatia"
+                                           & drzava != "European Union (25 countries)")
+
+
 skupni.podatki <- fil %>% group_by(drzava) %>% summarise(skupno = sum(kolicina)) 
 
 top5 <- quantile(skupni.podatki$skupno, 0.90)
@@ -12,35 +21,38 @@ min5 <- quantile(skupni.podatki$skupno, 0.10)
 izbrane.drzave <- skupni.podatki %>% filter(skupno >= top5 | skupno <= min5)  
 
 
-#podatki <- drzavna.poraba.delez.BDP %>% filter(drzava == "Japan" | drzava == "Slovenia") 
+
+graf1 <- ggplot(drzavna.poraba.delez.BDP %>% filter(drzava %in% izbrane.drzave$drzava),
+                aes(x = leto, y = kolicina, colour = drzava)) + geom_line()
 
 
-#graf1 <- ggplot(drzavna.poraba.delez.BDP 
- #               %>% filter(drzava == izbrane.drzave$drzava)) + 
-  #                aes(x = drzava, y = kolicina) +  
-   #             geom_point() 
-
-#print(graf1)
-
-graf1 <- ggplot(drzavna.poraba.delez.BDP 
-                               %>% filter(drzava == izbrane.drzave$drzava[1]))
-                                aes(x = leto, y = kolicina, colour = drzava) + geom_boxplot()
-
-graf1 <- graf1 + ggplot(drzavna.poraba.delez.BDP 
-         %>% filter(drzava == izbrane.drzave$drzava[2])) 
-  
-# želim združiti vse v en graf
 
 
-print(graf1)
+#2. GRAF
 
-####
-kolicina1 <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava == izbrane.drzave$drzava[1])
-kolicina2 <- drzavna.poraba.delez.BDP %>% filter(leto >= 2004 & drzava == izbrane.drzave$drzava[2])
+html.rast.BDP3 <- html.rast.BDP2 %>% filter(leto >= 2004)
 
-graf3 <- ggplot(drzavna.poraba.delez.BDP, aes(x = leto)) +                    
-  geom_line(aes(y = kolicina1), colour="red") +      
-  geom_line(aes(y = kolicina2), colour="green")
+graf2 <- ggplot(html.rast.BDP3 %>% filter(drzava %in% izbrane.drzave$drzava),
+                aes(x = leto, y = rast.BDP, colour = drzava)) + geom_line()
 
-print(graf3)
+
+
+
+#zemljevid
+
+evropa <- uvozi.zemljevid("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries.zip",
+                          "ne_50m_admin_0_countries", encoding = "UTF-8") %>%
+  pretvori.zemljevid() %>% filter(continent == "Europe" | sovereignt %in% c("Turkey", "Cyprus"),
+                                  long > -30)
+
+zemljevid <- ggplot() + geom_polygon(data = left_join(evropa, 
+                                             drzavna.poraba.delez.BDP,
+                                             by = c("name" = "drzava")),
+                                     aes(x = long, y = lat, group = group, 
+                                         fill = kolicina)) +
+                    coord_map(xlim = c(-25, 40), ylim = c(32, 72))
+
+
+
+
 
