@@ -19,7 +19,9 @@ drzavna.poraba.delez.BDP <- drzavna.poraba.delez.BDP %>%
          & drzava != "Euro area (EA11-2000, EA12-2006, EA13-2007, EA15-2008, EA16-2010, EA17-2013, EA18-2014, EA19)"
          & drzava != "Euro area (13 countries)" & drzava != "Euro area (15 countries)" & drzava != "European Union (25 countries)" )
 
-drzavna.poraba.delez.BDP$drzava <- gsub("Germany\\.", "Germany", drzavna.poraba.delez.BDP$drzava)
+drzavna.poraba.delez.BDP$drzava <- gsub("^Germany.*$","Germany",drzavna.poraba.delez.BDP$drzava)
+drzavna.poraba.delez.BDP$drzava <- gsub("^Czech.*$","Czech Rep.",drzavna.poraba.delez.BDP$drzava)
+
 
 #}
 
