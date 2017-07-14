@@ -21,12 +21,10 @@ shinyUI(fluidPage(
 
   tabPanel("grafa",
            fluidRow(
-             column(width = 6, plotOutput("g"), h4("Potrošnja držav za stopnjo izobrazbe")),
+             column(width = 6, plotOutput("g"), h4("Potrošnja držav za določeno stopnjo izobrazbe")),
              column(width = 6, plotOutput("g2"), h4("Rast BDP"))
            ))
   
-
-#plotOutput(outputId = "g")
 
 
 

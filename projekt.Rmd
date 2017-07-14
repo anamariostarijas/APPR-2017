@@ -116,7 +116,7 @@ ggplot() + geom_polygon(data = left_join(evropa,
   coord_map(xlim = c(-25, 40), ylim = c(32, 72))
 
 ```
-Dodatne povezave sem želela poiskati z metodo loess. Večinoma imamo podatke nekako zgoščene na območju, kjer je potrošnja med 25% in 30% BDP-ja ter rast med 0% in 5%, ampak nekatere točke močno odstopajo. Vseeno bi iz tega lahko predvidevali, da bo BDP konstantno rasel za 0-5%, če država za izobrazbo potroši nekje na intervalu med 25 in 30% BDP-ja. To je le sklepanje, veliko podatkov, ki bi prišli prav za to analizo, nisem upoštevala in ti bi lahko močno vplivali na rezultate.
+Dodatne povezave sem želela poiskati z metodo lowess. Večinoma imamo podatke nekako zgoščene na območju, kjer je potrošnja med 25% in 30% BDP-ja ter rast med 0% in 5%, ampak nekatere točke močno odstopajo. Vseeno bi iz tega lahko predvidevali, da bo BDP konstantno rasel za 0-5%, če država za izobrazbo potroši nekje na intervalu med 25 in 30% BDP-ja. To je le sklepanje, veliko podatkov, ki bi prišli prav za to analizo, nisem upoštevala in ti bi lahko močno vplivali na rezultate.
 ```{r graf3, echo=FALSE, warning = FALSE, fig.align='center'}
 graf3
 ```
