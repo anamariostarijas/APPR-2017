@@ -102,6 +102,30 @@ ggplot(html.rast.BDP3 %>% filter(drzava %in% izbrane.drzave$drzava),
 ```
 Zanima me, če obstaja kakšna povezava med potrošnjo za izobrazbo in rastjo BDP-ja, zato sem si ogledala še graf rasti BDP-ja \ref{graf2} za teh 6 držav. Seveda je BDP med krizo padel, ampak iz tega še ne morem sklepati o povezavi. 
 
+# Napredna analiza podatkov
+```{r analiza, echo=FALSE, message=FALSE, warning = FALSE}
+source("analiza/analiza.r", encoding = "UTF-8")
+```
+Ker me zanima povezava med rastjo BDP-ja in državno potrošnjo za izobrazbo, sem ta dva podatka (oba v %) združila v eno tabelo. Za potrošnjo  sem izbrala tabelo, ki vsebuje podatke o državni potrošnji za izobrazbo v odstotkih BDP-ja. Z metodo voditeljev sem države razvrstila v skupine glede na izbrano število centroidov. Ciper in Mlta sta v isti skupini, kar je smiselno, saj sem že pri prejšnji analizi izmed vseh držav poiskala najbolj in najmanj potrošne, ti dve državi sta bili med najbolj potrošnimi. To razvrstitev lahko za vse izbrane države vidimo na zemljevidu \ref{fig:zemljevid2}.
+```{r zemljevid2, echo=FALSE, warning = FALSE, fig.align='center', fig.cap='Skupine držav'}
+ggplot() + geom_polygon(data = left_join(evropa, 
+                                         skupine,
+                                         by = c("name" = "drzava")),
+                        aes(x = long, y = lat, group = group, 
+                            fill = skupina)) +
+  coord_map(xlim = c(-25, 40), ylim = c(32, 72))
+
+```
+Dodatne povezave sem želela poiskati z metodo loess. Večinoma imamo podatke nekako zgoščene na območju, kjer je potrošnja med 25% in 30% BDP-ja ter rast med 0% in 5%, ampak nekatere točke močno odstopajo. Vseeno bi iz tega lahko predvidevali, da bo BDP konstantno rasel za 0-5%, če država za izobrazbo potroši nekje na intervalu med 25 in 30% BDP-ja. To je le sklepanje, veliko podatkov, ki bi prišli prav za to analizo, nisem upoštevala in ti bi lahko močno vplivali na rezultate.
+```{r graf3, echo=FALSE, warning = FALSE, fig.align='center'}
+graf3
+```
+Če si želimo ogledati še posamezno državo in si iz grafov za potrošnjo in rastjo BDP-ja ustvariti predstavo za povezavo, to lahko storimo z aplikacijo shiny. Lahko si izberemo še posebno vrsto izobrazbe in vsako primerjamo posebej.  
+
+```{r shiny, echo=FALSE, warning = FALSE, fig.align='center'}
+shinyAppDir("shiny", options=list(width="100%", height=800))
+```
+
 
 ***
 

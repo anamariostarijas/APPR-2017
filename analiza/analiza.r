@@ -36,7 +36,5 @@ podatki <- inner_join(html.rast.BDP2, drzavna.poraba.delez.BDP)
 
 graf <- ggplot(podatki, aes(x=kolicina, y=rast.BDP)) + geom_point()
 
-
-funk <- loess(data = podatki, kolicina ~ rast.BDP)
-graf + geom_smooth(method = "loess")
+graf3 <- graf + geom_smooth(method = "lowess")
 
