@@ -34,7 +34,7 @@ for (col in colnames(html.rast.BDP2)[-1]) {
   html.rast.BDP2[[col]] <- parse_number(html.rast.BDP2[[col]], na = ":")
   
 }
-
+html.rast.BDP2 <- html.rast.BDP2[!(is.na(html.rast.BDP2$rast.BDP)),]
 
 
 html.rast.BDP2 <- html.rast.BDP2 %>%

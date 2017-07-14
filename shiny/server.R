@@ -1,24 +1,42 @@
 library(shiny)
+library(ggplot2)
 
 shinyServer(function(input, output) {
-  output$druzine <- DT::renderDataTable({
-    dcast(druzine, obcina ~ velikost.druzine, value.var = "stevilo.druzin") %>%
-      rename(`Občina` = obcina)
+  
+  output$g <- renderPlot({
+    podatki1 <- filter(drzavna.poraba, 
+                   drzavna.poraba$drzava == input$drzava,
+                   drzavna.poraba$vrsta.izobrazbe == input$vrsta)
+    podatki2 <- filter(html.rast.BDP2,
+                       html.rast.BDP2$drzava == input$drzava)
+    
+    graf <- ggplot(podatki1, aes(x = leto, y = kolicina)) +
+      geom_point()
+    
+    
+    graf +
+      geom_smooth(method = 'loess', fullrange = TRUE, se = FALSE) +
+      xlab("Leto") + ylab("Količina")
+    
+    
   })
   
-  output$pokrajine <- renderUI(
-    selectInput("pokrajina", label="Izberi pokrajino",
-                choices=c("Vse", levels(obcine$pokrajina)))
-  )
-  output$naselja <- renderPlot({
-    main <- "Pogostost števila naselij"
-    if (!is.null(input$pokrajina) && input$pokrajina %in% levels(obcine$pokrajina)) {
-      t <- obcine %>% filter(pokrajina == input$pokrajina)
-      main <- paste(main, "v regiji", input$pokrajina)
-    } else {
-      t <- obcine
-    }
-    ggplot(t, aes(x = naselja)) + geom_histogram() +
-      ggtitle(main) + xlab("Število naselij") + ylab("Število občin")
+  output$g2 <- renderPlot({
+    
+    podatki2 <- filter(html.rast.BDP2,
+                       html.rast.BDP2$drzava == input$drzava)
+    
+    graf2 <- ggplot(podatki2, aes(x = leto, y = rast.BDP)) +
+      geom_point()
+    
+    
+   graf2 +
+      geom_smooth(method = 'loess', fullrange = TRUE, se = FALSE) +
+      xlab("Leto") + ylab("Rast BDP")
+    
+    
   })
+  
+ 
 })
+  

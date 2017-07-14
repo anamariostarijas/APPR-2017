@@ -2,16 +2,35 @@ library(shiny)
 
 shinyUI(fluidPage(
   
-  titlePanel("Slovenske občine"),
+  titlePanel("Potrošnja držav za izobrazbo ter njen BDP"),
   
-  tabsetPanel(
-      tabPanel("Velikost družine",
-               DT::dataTableOutput("druzine")),
-      
-      tabPanel("Število naselij",
-               sidebarPanel(
-                  uiOutput("pokrajine")
-                ),
-               mainPanel(plotOutput("naselja")))
-    )
+  selectInput(inputId = "drzava", 
+              label = "Država", 
+              choices = unique(drzavna.poraba$drzava),
+              selected = "Slovenia",
+              multiple = FALSE),
+
+  
+  radioButtons(inputId = "vrsta",
+               label = "Vrsta izobrazbe",
+               choices = list("Primarna",
+                              "Sekundarna",
+                              "Terciarna",
+                              "Skupaj")),
+ 
+
+  tabPanel("grafa",
+           fluidRow(
+             column(width = 6, plotOutput("g"), h4("Potrošnja držav za vrsto izobrazbe")),
+             column(width = 6, plotOutput("g2"), h4("Rast BDP"))
+           ))
+  
+
+#plotOutput(outputId = "g")
+
+
+
+
+
 ))
+

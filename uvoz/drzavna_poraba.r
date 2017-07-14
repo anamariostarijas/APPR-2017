@@ -19,6 +19,11 @@ drzavna.poraba <- drzavna.poraba[!(is.na(drzavna.poraba$kolicina)),]
 drzavna.poraba[4] <- NULL
 drzavna.poraba[5] <- NULL
 
+drzavna.poraba$vrsta.izobrazbe <- gsub("^Total public expenditure on education in millions PPS, at primary level of education.*$","Primarna", drzavna.poraba$vrsta.izobrazbe)
+drzavna.poraba$vrsta.izobrazbe <- gsub("^Total public expenditure on education in millions PPS, at secondary level of education.*$","Sekundarna", drzavna.poraba$vrsta.izobrazbe)
+drzavna.poraba$vrsta.izobrazbe <- gsub("^Total public expenditure on education in millions PPS, at tertiary level of education.*$","Terciarna", drzavna.poraba$vrsta.izobrazbe)
+drzavna.poraba$vrsta.izobrazbe <- gsub("^Total public expenditure on education in millions PPS, for all levels of education combined.*$","Skupaj", drzavna.poraba$vrsta.izobrazbe)
+
 drzavna.poraba <- drzavna.poraba %>%
   filter(drzava != "European Union (28 countries)" & drzava != "European Union (15 countries)" & drzava != "European Union (27 countries)"
          & drzava != "Euro area (12 countries)" & drzava != "Euro area (17 countries)" & drzava != "Euro area (18 countries)"
